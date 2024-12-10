@@ -26,31 +26,31 @@ class MainWindow(QMainWindow):
         self.change_button.move(10, 50)
         self.change_button.clicked.connect(self.change_background)
 
-        self.label = QLabel(self)  # Added QLabel to show loading/error messages
+        self.label = QLabel(self)  
         self.label.move(10, 80)
         self.label.resize(280, 50)
-        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter) # Center the text
-        self.label.setStyleSheet("color: red;")  #Error messages in red
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter) 
+        self.label.setStyleSheet("color: red;")  
 
     def change_background(self):
         input_text = self.url_input.text()
-        self.label.setText("") #Clear previous messages
+        self.label.setText("") 
 
         try:
-            if input_text.startswith("http"):  # Check if it's a URL
+            if input_text.startswith("http"):  
                 response = requests.get(input_text, stream=True)
-                response.raise_for_status() #Raise HTTPError for bad responses (4xx or 5xx)
+                response.raise_for_status() 
                 image = QPixmap()
                 image.loadFromData(response.content)
-                self.setStyleSheet(f"background-image: url(:image);") #Use :image placeholder
+                self.setStyleSheet(f"background-image: url(:image);") 
                 self.label.setText("Background changed successfully!")
 
-            else: # Assume it's a color
+            else: 
                 self.setStyleSheet(f"background-color: {input_text};")
                 self.label.setText("ура цвет поменялся йоу")
 
         except requests.exceptions.RequestException as e:
-            self.label.setText(f"Error: {e}") # Show error if image cannot be loaded
+            self.label.setText(f"Error: {e}") 
         except Exception as e:
             self.label.setText(f"Error: Invalid input. Please provide a valid URL or color. {e}")
 
