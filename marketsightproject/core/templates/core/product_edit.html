@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Редактировать товар</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}">
+</head>
+<body>
+    <h1>Редактировать товар</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+        <a href="{% url 'product_list' %}">Отмена</a>
+    </form>
+</body>
+</html>

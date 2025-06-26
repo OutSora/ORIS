@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список товаров</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'core/style.css' %}">
+</head>
+<body>
+    <h1>Список товаров</h1>
+
+    <form method="get">
+        <label for="category">Категория:</label>
+        <select name="category" id="category">
+            <option value="">Все категории</option>
+            {% for cat in categories %}
+                <option value="{{ cat }}" {% if cat == current_category %}selected{% endif %}>{{ cat }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Фильтр</button>
+    </form>
+
+    <h2>Добавить новый товар</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <ul>
+        {% for product in products %}
+            <li>
+                {{ product.name }} - ${{ product.price }}
+                <a href="{% url 'product_edit' pk=product.pk %}">Редактировать</a>
+                <a href="{% url 'product_delete' pk=product.pk %}">Удалить</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
